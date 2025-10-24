@@ -13,8 +13,8 @@
   users.users.tom = {
     isNormalUser = true;
     description = "Tom S.";
-    extraGroups = [ "networkmanager", "wheel", "dialout" ];
-    shell = "zsh";
+    extraGroups = [ "networkmanager" "wheel" "dialout" ];
+    shell = pkgs.zsh;
     createHome = true;
   };
 }

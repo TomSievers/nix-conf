@@ -3,8 +3,6 @@
 {
   # Set the default language to American English
   i18n.defaultLocale = "en_US.UTF-8";
-  # Add the dutch locale as an extra.
-  i18n.extraLocales = "nl_NL.UTF-8";
   # Set most of the locale configuration to dutch.
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "nl_NL.UTF-8";

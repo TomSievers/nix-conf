@@ -2,7 +2,7 @@
 
 {
   # Enable rtkit needed for pipewire and pulseaudio 
-  services.rtkit.enable = true;
+  security.rtkit.enable = true;
   # Configure pipewire to emulate all other services.
   services.pipewire = {
     enable = true;
