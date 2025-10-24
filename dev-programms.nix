@@ -32,14 +32,34 @@
     (
       vscode-with-extensions.override {
         vscodeExtensions = with pkgs.vscode-extensions; [
-          #donjayamanne.python-extension-pack
+          ms-python.python
           ms-vscode-remote.vscode-remote-extensionpack
-          #docker.docker
-          #ms-azuretools.vscode-containers
-          #mhutchie.git-graph
+          jnoortheen.nix-ide
+        ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+      	  {
+            name = "docker";
+            publisher = "docker";
+            version = "0.18.0";
+            sha256 = "a5XlZL7jExYPhz1HODCgvw29JTf7DNyUBFQWYe+4dmA=";
+	        }
+          {
+            name = "vscode-containers";
+            publisher = "ms-azuretools";
+            version = "2.2.0";
+            sha256 = "UxWsu7AU28plnT0QMdpPJrcYZIV09FeC+rmYKf39a6M=";
+          }
+          {
+            name = "git-graph";
+            publisher = "mhutchie";
+            version = "1.30.0";
+            sha256 = "sHeaMMr5hmQ0kAFZxxMiRk6f0mfjkg2XMnA4Gf+DHwA=";
+          }
         ];
       }
     )
+    
+    # Other
+    home-manager
   ];
 
   # Make sure that vscode uses wayland
