@@ -2,9 +2,11 @@
 
 {
   boot.loader = {
-    systemd-boot.enable = true;
+    systemd-boot = {
+      enable = true;
+      consoleMode = "2";
+      configurationLimit = 10;
+    };
     efi.canTouchEfiVariables = true;
-    systemd-boot.consoleMode = "auto";
-    systemd-boot.configurationLimit = 10;
   };
 }
