@@ -10,11 +10,12 @@
       ./hardware-configuration.nix
       ./fragments/boot.nix
       ./fragments/audio.nix
-      ./fragments/dev-user.nix
-      ./fragments/dev-programms.nix
+      ./fragments/home-manager.nix
       ./fragments/gnome-de.nix
       ./fragments/locale.nix
       ./fragments/network.nix
+      ./fragments/root-packages.nix
+      ./fragments/desktop-fedora-sideload.nix
     ];
 
   networking.hostName = "nixos"; # Define your hostname.
@@ -24,6 +25,12 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+  
+  user = {
+    enable = true;
+    username = "tom";
+    description = "Tom S";
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

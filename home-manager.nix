@@ -58,10 +58,17 @@ in
       description = cfg.description;
     };
 
+    programs.zsh.enable = true;
+
     # Hook in the Home Manager config for this user
     home-manager.users.${cfg.username} = { pkgs, ... }: mkMerge [
       {
         services.podman.enable = true;
+        programs.vim.enable = true;
+        nixpkgs.config.allowUnfree = true;
+
+        # Hint for using wayland instead of X
+        home.sessionVariables.NIXOS_OZONE_WL = "1";
 
         programs.firefox = {
           enable = true;
@@ -79,25 +86,9 @@ in
           };
         };
 
-        home.pakcages = with pkgs; [
+        home.packages = with pkgs; [
           # For docker/podman compose files.
           podman-compose
-          # Default command line tools
-          vim
-          curl
-          wget
-          bmaptool
-          rpiboot
-          gcc
-          clang_21
-          parted
-          ncdu
-          git
-          cmake
-          automake
-          ncdu 
-          avrdude
-          probe-rs-tools
 
           # GUI applications
           rpi-imager
@@ -110,7 +101,7 @@ in
         programs.zsh = {
           enable = true;
           enableCompletion = true;
-          autosuggestions.enable = true;
+          autosuggestion.enable = true;
 
           shellAliases = {
             ll = "ls -l";
@@ -134,7 +125,7 @@ in
           enable = true;
           package = pkgs.gitFull;
           lfs.enable = true;
-          settings = {
+          extraConfig = {
             user = {
               name = "Tom Sievers";
               email = "t.sievers@hanskamp.com";
