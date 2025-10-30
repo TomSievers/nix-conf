@@ -58,6 +58,7 @@ in
       description = cfg.description;
     };
 
+    # We also need to enable zsh here because it is needed for the users config above. 
     programs.zsh.enable = true;
 
     # Hook in the Home Manager config for this user
@@ -65,6 +66,8 @@ in
       {
         services.podman.enable = true;
         programs.vim.enable = true;
+
+        # We also need to set this in home manager, otherwise we won't be able to install vscode.
         nixpkgs.config.allowUnfree = true;
 
         # Hint for using wayland instead of X
@@ -98,6 +101,7 @@ in
 
         ];
 
+        # Some sane default zsh configuration with some usefull aliases
         programs.zsh = {
           enable = true;
           enableCompletion = true;
@@ -117,10 +121,11 @@ in
           oh-my-zsh = {
             enable = true;
             plugins = [ "git" ];
-            theme = "amuse";
+            theme = ${cfg.zshTheme};
           };
         };
 
+        # Configure git how I like it.
         programs.git = {
           enable = true;
           package = pkgs.gitFull;
@@ -137,6 +142,7 @@ in
           };
         };
 
+        # Setup vscode with some basic extensions to allow most development to occur in dev containers.
         programs.vscode = {
           enable = true;
           profiles.default = {
