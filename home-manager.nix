@@ -43,7 +43,7 @@ in
     };
 
     zshTheme = mkOption {
-      type = type.str;
+      type = types.str;
       default = "amuse";
       description = "Which zsh theme to use, defaults to amuse.";
     };
@@ -121,7 +121,7 @@ in
           oh-my-zsh = {
             enable = true;
             plugins = [ "git" ];
-            theme = ${cfg.zshTheme};
+            theme = cfg.zshTheme;
           };
         };
 
@@ -151,6 +151,7 @@ in
             userSettings = {
               "editor.formatOnSave" = true;
               "terminal.integrated.defaultProfile.linux" = "zsh";
+              "git.confirmSync" = false;
             };
             extensions = with pkgs.vscode-extensions; [
               ms-python.python

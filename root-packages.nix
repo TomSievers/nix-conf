@@ -15,14 +15,8 @@
     wget
     bmaptool
     rpiboot
-    gcc
-    clang_21
     parted
     ncdu
-    git
-    cmake
-    automake
-    ncdu 
     avrdude
     probe-rs-tools
 

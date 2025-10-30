@@ -7,15 +7,15 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./fragments/boot.nix
-      ./fragments/audio.nix
-      ./fragments/home-manager.nix
-      ./fragments/gnome-de.nix
-      ./fragments/locale.nix
-      ./fragments/network.nix
-      ./fragments/root-packages.nix
-      ./fragments/desktop-fedora-sideload.nix
+      /etc/nixos/hardware-configuration.nix
+      ./boot.nix
+      ./audio.nix
+      ./home-manager.nix
+      ./gnome-de.nix
+      ./locale.nix
+      ./network.nix
+      ./root-packages.nix
+      ./desktop-fedora-sideload.nix
     ];
 
   networking.hostName = "nixos"; # Define your hostname.
