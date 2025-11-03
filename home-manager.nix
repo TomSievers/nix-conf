@@ -99,6 +99,9 @@ in
           gparted
           wineWowPackages.waylandFull
 
+          # Nerd font for zsh
+          nerd-fonts.adwaita-mono
+
         ];
 
         # Some sane default zsh configuration with some usefull aliases

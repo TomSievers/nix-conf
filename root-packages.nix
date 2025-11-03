@@ -21,5 +21,7 @@
     probe-rs-tools
 
     nixfmt-classic
+
+    nerd-fonts.adwaita-mono
   ];
 }

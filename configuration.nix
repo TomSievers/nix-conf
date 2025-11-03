@@ -5,18 +5,17 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      /etc/nixos/hardware-configuration.nix
-      ./boot.nix
-      ./audio.nix
-      ./home-manager.nix
-      ./gnome-de.nix
-      ./locale.nix
-      ./network.nix
-      ./root-packages.nix
-      ./desktop-fedora-sideload.nix
-    ];
+  imports = [ # Include the results of the hardware scan.
+    /etc/nixos/hardware-configuration.nix
+    ./boot.nix
+    ./audio.nix
+    ./home-manager.nix
+    ./gnome-de.nix
+    ./locale.nix
+    ./network.nix
+    ./root-packages.nix
+    ./desktop-fedora-sideload.nix
+  ];
 
   networking.hostName = "nixos"; # Define your hostname.
 
@@ -25,11 +24,12 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-  
+
   user = {
     enable = true;
     username = "tom";
     description = "Tom S";
+    zshTheme = "agnoster";
   };
 
   # This value determines the NixOS release from which the default
