@@ -30,7 +30,7 @@ in {
 
     extraGroups = mkOption {
       type = types.listOf types.str;
-      default = [ "networkmanager" "wheel" "dialout" ];
+      default = [ "networkmanager" "wheel" "dialout" "podman" ];
       description = "Extra groups to add the user to.";
     };
 
@@ -58,6 +58,10 @@ in {
 
     # We also need to enable zsh here because it is needed for the users config above. 
     programs.zsh.enable = true;
+
+    # Make docker socket (via podman) available for vscode.
+    virtualisation.podman.dockerSocket.enable = true;
+    virtualisation.podman.enable = true;
 
     # Hook in the Home Manager config for this user
     home-manager.users.${cfg.username} = { pkgs, ... }:
@@ -138,9 +142,11 @@ in {
                 name = "Tom Sievers";
                 email = "t.sievers@hanskamp.com";
               };
-
+              # When pulling do a merge instead of fast forward or rebase.
+              pull.rebase = "false";
+              # Set default branch name to master
               init.defaultBranch = "master";
-
+              # Make sure that crlf is properly converted.
               core.autocrlf = "input";
             };
           };
@@ -155,14 +161,12 @@ in {
                 "editor.formatOnSave" = true;
                 "terminal.integrated.defaultProfile.linux" = "zsh";
                 "git.confirmSync" = false;
+                "dev.containers.dockerComposePath" = "podman-compose";
+                "dev.containers.dockerPath" = "podman";
               };
               extensions = with pkgs.vscode-extensions;
-                [
-                  ms-python.python
-                  github.copilot
-                  ms-vscode-remote.remote-ssh
-                  jnoortheen.nix-ide
-                ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+                [ ms-python.python github.copilot jnoortheen.nix-ide ]
+                ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
                   {
                     name = "docker";
                     publisher = "docker";
