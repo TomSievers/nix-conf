@@ -163,6 +163,7 @@ in {
                 "git.confirmSync" = false;
                 "dev.containers.dockerComposePath" = "podman-compose";
                 "dev.containers.dockerPath" = "podman";
+                "git.suggestSmartCommit" = false;
               };
               extensions = with pkgs.vscode-extensions;
                 [ ms-python.python github.copilot jnoortheen.nix-ide ]
