@@ -102,6 +102,8 @@ in {
             sourcegit
             gparted
             wineWowPackages.waylandFull
+            bambu-studio
+            freecad-wayland
 
             # Nerd font for zsh
             nerd-fonts.adwaita-mono
