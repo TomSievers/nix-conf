@@ -179,7 +179,7 @@ in {
                   {
                     name = "vscode-containers";
                     publisher = "ms-azuretools";
-                    version = "2.2.0";
+                    version = "2.3.0";
                     sha256 = "UxWsu7AU28plnT0QMdpPJrcYZIV09FeC+rmYKf39a6M=";
                   }
                   {

@@ -44,8 +44,6 @@ in {
           wayland.windowManager.hyprland.enable = true;
           programs.waybar.enable = true;
 
-
-
           # Hint for using wayland instead of X
           home.sessionVariables.NIXOS_OZONE_WL = "1";
         };
