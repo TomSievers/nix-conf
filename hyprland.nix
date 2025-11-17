@@ -23,9 +23,12 @@ in {
       withUWSM = true;
     };
 
+    # Enable related programs
     programs.kitty.enable = true;
+    programs.waybar.enable = true;
     programs.hyprlock.enable = true;
     services.hypridle.enable = true;
+    
 
     # Install hyprland related packages
     environment.systemPackages = with pkgs; [
