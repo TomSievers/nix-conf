@@ -6,6 +6,7 @@ let
   cfg = config.de.hyprland;
   hmAvailable = config ? home-manager && config.home-manager ? users;
   username = config.user.username or null;
+  confDir = ./conf;
 in {
   options.de.hyprland = {
     enable = mkEnableOption "Enable hyprland DE";
@@ -38,6 +39,7 @@ in {
       hyprpaper
       hyprsunset
       hyprpolkitagent
+      hyprsysteminfo
     ];
 
     # Also configure hyprland in home-manager if requested and available
@@ -49,6 +51,13 @@ in {
 
           # Hint for using wayland instead of X
           home.sessionVariables.NIXOS_OZONE_WL = "1";
+
+          # Install hyprland config files
+          home.file = {
+            ".config/hypr".source = "${confDir}/hypr";
+            ".config/xdg-desktop-portal".source = "${confDir}/xdg-desktop-portal";
+            "Pictures/Wallpapers".source = "${confDir}/wallpapers";
+          };
         };
     };
   };
