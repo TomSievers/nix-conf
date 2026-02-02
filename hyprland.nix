@@ -31,10 +31,10 @@ in {
 
     # Install hyprland related packages
     environment.systemPackages = with pkgs; [
+      rofi
       kitty
       pyprland
       hyprpicker
-      hyprcursor
       hyprpaper
       hyprsunset
       hyprpolkitagent
