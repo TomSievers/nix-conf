@@ -15,6 +15,7 @@
     ./network.nix
     ./root-packages.nix
     ./desktop-fedora-sideload.nix
+    ./hyprland.nix
   ];
 
   networking.hostName = "nixos"; # Define your hostname.
@@ -30,6 +31,11 @@
     username = "tom";
     description = "Tom S";
     zshTheme = "agnoster";
+  };
+
+  de.hyprland = {
+    enable = true;
+    withHomeManager = true;
   };
 
   # This value determines the NixOS release from which the default
