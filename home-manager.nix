@@ -181,7 +181,7 @@ in {
                   {
                     name = "vscode-containers";
                     publisher = "ms-azuretools";
-                    version = "2.3.0";
+                    version = "2.4.0";
                     sha256 = "UxWsu7AU28plnT0QMdpPJrcYZIV09FeC+rmYKf39a6M=";
                   }
                   {
@@ -193,8 +193,8 @@ in {
                   {
                     name = "remote-containers";
                     publisher = "ms-vscode-remote";
-                    version = "0.427.0";
-                    sha256 = "aSwC8NLJxelv2B+FnF8rmA5pnowugmdF+gnm+A0qSiE=";
+                    version = "0.441.0";
+                    sha256 = "vScP4iKqqfu2S/+wQ2ZhX/XVhq/oJPvxESNjHEOD9hg=";
                   }
                 ];
             };

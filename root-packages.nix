@@ -23,6 +23,7 @@
     ncdu
     avrdude
     probe-rs-tools
+    jq
 
     nixfmt-classic
 
