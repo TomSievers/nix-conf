@@ -6,11 +6,11 @@
 
   # Configure Xserver for gnome desktop while using Wayland (I known confusing right?)
   services.xserver.enable = true;
-  services.xserver.displayManager.gdm = {
+  services.displayManager.gdm = {
     enable = true;
     wayland = true;
   };
-  services.xserver.desktopManager.gnome.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   # Setup the keyboard keymap
   services.xserver.xkb.layout = "us";

@@ -4,7 +4,7 @@ with lib;
 
 let
   home-manager = builtins.fetchTarball
-    "https://github.com/nix-community/home-manager/archive/release-25.05.tar.gz";
+    "https://github.com/nix-community/home-manager/archive/release-25.11.tar.gz";
   cfg = config.user;
 in {
   imports = [ (import "${home-manager}/nixos") ];
@@ -104,6 +104,8 @@ in {
             wineWowPackages.waylandFull
             bambu-studio
             freecad-wayland
+            kicad
+            vlc
 
             # Nerd font for zsh
             nerd-fonts.adwaita-mono
@@ -139,7 +141,7 @@ in {
             enable = true;
             package = pkgs.gitFull;
             lfs.enable = true;
-            extraConfig = {
+            settings = {
               user = {
                 name = "Tom Sievers";
                 email = "t.sievers@hanskamp.com";
