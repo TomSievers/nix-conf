@@ -11,6 +11,7 @@
     wayland = true;
   };
   services.desktopManager.gnome.enable = true;
+  programs.gnome-terminal.enable = true;
 
   # Setup the keyboard keymap
   services.xserver.xkb.layout = "us";

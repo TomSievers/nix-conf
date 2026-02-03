@@ -9,4 +9,7 @@
     };
     efi.canTouchEfiVariables = true;
   };
+
+  # Enable plymouth boot logo.
+  boot.plymouth = { enable = true; };
 }

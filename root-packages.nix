@@ -24,6 +24,7 @@
     avrdude
     probe-rs-tools
     jq
+    git
 
     nixfmt-classic
 

@@ -62,6 +62,7 @@ in {
     # Make docker socket (via podman) available for vscode.
     virtualisation.podman.dockerSocket.enable = true;
     virtualisation.podman.enable = true;
+    virtualisation.podman.dockerCompat = true;
 
     # Hook in the Home Manager config for this user
     home-manager.users.${cfg.username} = { pkgs, ... }:
@@ -75,6 +76,13 @@ in {
 
           # Hint for using wayland instead of X
           home.sessionVariables.NIXOS_OZONE_WL = "1";
+
+          dconf.settings = mkIf services.desktopManager.gnome.enable {
+            "org/gnome/desktop/background" = {
+              picture-uri-dark =
+                "file://etc/nixos/fragments/wallpapers/lockscreen.jpg";
+            };
+          };
 
           programs.firefox = {
             enable = true;
