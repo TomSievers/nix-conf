@@ -77,7 +77,7 @@ in {
           # Hint for using wayland instead of X
           home.sessionVariables.NIXOS_OZONE_WL = "1";
 
-          dconf.settings = mkIf services.desktopManager.gnome.enable {
+          dconf.settings = {
             "org/gnome/desktop/background" = {
               picture-uri-dark =
                 "file:///etc/nixos/fragments/wallpapers/wallpaper.jpg";
