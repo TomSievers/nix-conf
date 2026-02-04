@@ -80,7 +80,7 @@ in {
           dconf.settings = mkIf services.desktopManager.gnome.enable {
             "org/gnome/desktop/background" = {
               picture-uri-dark =
-                "file://etc/nixos/fragments/wallpapers/lockscreen.jpg";
+                "file:///etc/nixos/fragments/wallpapers/wallpaper.jpg";
             };
           };
 
