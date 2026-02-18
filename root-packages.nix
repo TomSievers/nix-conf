@@ -32,4 +32,7 @@
 
     gparted
   ];
+
+  # Enable steam
+  programs.steam.enable = true;
 }

@@ -114,6 +114,7 @@ in {
             freecad-wayland
             kicad
             vlc
+            gimp
 
             # Nerd font for zsh
             nerd-fonts.adwaita-mono
