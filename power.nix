@@ -12,6 +12,7 @@ in {
     (lib.mkIf isLaptop {
       # Enable TLP
       services.tlp.enable = true;
+      services.power-profiles-daemon.enable = false;
 
       # Configure battery care by default
       services.tlp.settings = {

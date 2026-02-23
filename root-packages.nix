@@ -25,12 +25,19 @@
     probe-rs-tools
     jq
     git
+    python312
+    python312Packages.pipx
 
     nixfmt-classic
 
     nerd-fonts.adwaita-mono
 
     gparted
+    solaar
+    logitech-udev-rules
+    gnomeExtensions.solaar-extension
+    stm32cubemx
+    minicom
   ];
 
   # Enable steam
