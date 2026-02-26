@@ -30,7 +30,15 @@ in {
 
     extraGroups = mkOption {
       type = types.listOf types.str;
-      default = [ "networkmanager" "wheel" "dialout" "podman" "libvirtd" ];
+      default = [
+        "networkmanager"
+        "wheel"
+        "dialout"
+        "podman"
+        "libvirtd"
+        "plugdev"
+        "uucp"
+      ];
       description = "Extra groups to add the user to.";
     };
 
