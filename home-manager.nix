@@ -140,6 +140,8 @@ in {
               update = "sudo nixos-rebuild switch";
               system-upgrade =
                 "sudo nix-channel --update && sudo nixos-rebuild switch --upgrade";
+              system-clean =
+                "sudo nix-env --delete-generations 14d && sudo nix-store --gc && sudo nix-collect-garbage -d";
             };
 
             history = {
