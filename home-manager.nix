@@ -85,10 +85,15 @@ in {
           # Hint for using wayland instead of X
           home.sessionVariables.NIXOS_OZONE_WL = "1";
 
+          # Copy wallpaper to user location
+          home.file."/home/${cfg.username}/wallpapers/bg.jpg".source =
+            ./wallpapers/wallpaper.jpg;
+
+          # Set the wallpaper for gnome
           dconf.settings = {
             "org/gnome/desktop/background" = {
               picture-uri-dark =
-                "file:///etc/nixos/nix-conf/wallpapers/wallpaper.jpg";
+                "file:///home/${cfg.username}/wallpapers/bg.jpg";
             };
           };
 
