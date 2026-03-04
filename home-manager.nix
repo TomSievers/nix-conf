@@ -117,7 +117,6 @@ in {
             rpi-imager
             sourcegit
             gparted
-            wineWowPackages.waylandFull
             bambu-studio
             freecad-wayland
             kicad

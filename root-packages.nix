@@ -41,6 +41,9 @@
     stlink
     openocd
 
+    wineWowPackages.stable
+    winetricks
+
     nixfmt-classic
 
     nerd-fonts.adwaita-mono
