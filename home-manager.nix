@@ -176,6 +176,8 @@ in {
               init.defaultBranch = "master";
               # Make sure that crlf is properly converted.
               core.autocrlf = "input";
+              # Setup the credential helper to store in the gnome keyring.
+              credential.helper = "libsecret";
             };
           };
 

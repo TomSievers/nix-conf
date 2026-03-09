@@ -17,4 +17,8 @@
   services.xserver.xkb.layout = "us";
   # Make consoles use xkb config to only need to set the language once.
   console.useXkbConfig = true;
+
+  # Enable gnome keyring for password management and secrets storage
+  services.gnome.gnome-keyring.enable = true;
+  environment.systemPackages = with pkgs; [ gnome-keyring ];
 }
