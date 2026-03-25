@@ -58,6 +58,9 @@
     teams-for-linux
     ghidra
     arduino-ide
+    libreoffice-fresh
+    wireguard-tools
+    wg-netmanager
   ];
 
   # Enable steam
