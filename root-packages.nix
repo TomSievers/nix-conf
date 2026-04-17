@@ -36,7 +36,7 @@
     jq
     git
     gcc-arm-embedded
-    python312
+    (python3.withPackages (ps: with ps; [ tkinter pip virtualenv pyserial ]))
     dfu-util
     stlink
     openocd
@@ -61,6 +61,9 @@
     libreoffice-fresh
     wireguard-tools
     wg-netmanager
+
+    pkgs.proot
+    pkgs.pkgsStatic.qemu-user
   ];
 
   # Enable steam

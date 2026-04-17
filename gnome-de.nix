@@ -20,5 +20,5 @@
 
   # Enable gnome keyring for password management and secrets storage
   services.gnome.gnome-keyring.enable = true;
-  environment.systemPackages = with pkgs; [ gnome-keyring ];
+  environment.systemPackages = with pkgs; [ gnome-keyring file-roller ];
 }
