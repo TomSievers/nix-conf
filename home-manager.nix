@@ -38,6 +38,7 @@ in {
         "libvirtd"
         "plugdev"
         "uucp"
+        "wireshark"
       ];
       description = "Extra groups to add the user to.";
     };

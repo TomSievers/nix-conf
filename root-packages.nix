@@ -12,12 +12,7 @@
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
 
-  # Enable mDNS
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true; # Allows resolving .local hostnames
-    openFirewall = true; # Opens ports for mDNS discovery
-  };
+  programs.wireshark.enable = true;
 
   # Enable GVFS for mounting network shares in file managers
   services.gvfs.enable = true;
@@ -61,6 +56,8 @@
     libreoffice-fresh
     wireguard-tools
     wg-netmanager
+    spotify
+    wireshark
 
     pkgs.proot
     pkgs.pkgsStatic.qemu-user
