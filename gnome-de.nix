@@ -6,10 +6,7 @@
 
   # Configure Xserver for gnome desktop while using Wayland (I known confusing right?)
   services.xserver.enable = true;
-  services.displayManager.gdm = {
-    enable = true;
-    wayland = true;
-  };
+  services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
   programs.gnome-terminal.enable = true;
 

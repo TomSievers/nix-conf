@@ -31,22 +31,23 @@
     jq
     git
     gcc-arm-embedded
-    (python3.withPackages (ps: with ps; [ tkinter pip virtualenv pyserial ]))
-    dfu-util
+    (python3.withPackages (
+      ps: with ps; [
+        tkinter
+        pip
+        virtualenv
+        pyserial
+      ]
+    ))
     stlink
     openocd
 
-    wineWowPackages.stable
+    wineWow64Packages.stable
     winetricks
 
-    nixfmt-classic
-
-    nerd-fonts.adwaita-mono
+    nixfmt
 
     gparted
-    solaar
-    logitech-udev-rules
-    gnomeExtensions.solaar-extension
     stm32cubemx
     minicom
     pyocd
@@ -59,17 +60,25 @@
     spotify
     wireshark
 
-    pkgs.proot
+    gcc
+
     pkgs.pkgsStatic.qemu-user
   ];
 
   # Enable steam
   programs.steam.enable = true;
 
-  services.udev.packages = with pkgs; [ stlink openocd probe-rs-tools ];
+  services.udev.packages = with pkgs; [
+    stlink
+    openocd
+    probe-rs-tools
+  ];
 
-  boot.binfmt.emulatedSystems =
-    [ "aarch64-linux" "armv7l-linux" "armv6l-linux" ];
+  boot.binfmt.emulatedSystems = [
+    "aarch64-linux"
+    "armv7l-linux"
+    "armv6l-linux"
+  ];
 
   boot.binfmt.preferStaticEmulators = true;
 }

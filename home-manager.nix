@@ -2,12 +2,9 @@
 
 with lib;
 
-let
-  home-manager = builtins.fetchTarball
-    "https://github.com/nix-community/home-manager/archive/release-25.11.tar.gz";
-  cfg = config.user;
+let cfg = config.user;
 in {
-  imports = [ (import "${home-manager}/nixos") ];
+  imports = [ <home-manager/nixos> ];
 
   options.user = {
     enable = mkEnableOption "Enable default software development user.";
@@ -123,7 +120,7 @@ in {
             rpi-imager
             sourcegit
             gparted
-            bambu-studio
+            orca-slicer
             freecad-wayland
             kicad
             vlc
@@ -196,38 +193,19 @@ in {
                 "dev.containers.dockerPath" = "podman";
                 "git.suggestSmartCommit" = false;
               };
-              extensions = with pkgs.vscode-extensions;
-                [ ms-python.python github.copilot jnoortheen.nix-ide ]
-                ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-                  {
-                    name = "docker";
-                    publisher = "docker";
-                    version = "0.18.0";
-                    sha256 = "a5XlZL7jExYPhz1HODCgvw29JTf7DNyUBFQWYe+4dmA=";
-                  }
-                  {
-                    name = "vscode-containers";
-                    publisher = "ms-azuretools";
-                    version = "2.4.0";
-                    sha256 = "UxWsu7AU28plnT0QMdpPJrcYZIV09FeC+rmYKf39a6M=";
-                  }
-                  {
-                    name = "git-graph";
-                    publisher = "mhutchie";
-                    version = "1.30.0";
-                    sha256 = "sHeaMMr5hmQ0kAFZxxMiRk6f0mfjkg2XMnA4Gf+DHwA=";
-                  }
-                  {
-                    name = "remote-containers";
-                    publisher = "ms-vscode-remote";
-                    version = "0.441.0";
-                    sha256 = "vScP4iKqqfu2S/+wQ2ZhX/XVhq/oJPvxESNjHEOD9hg=";
-                  }
-                ];
+              extensions = with pkgs.vscode-extensions; [
+                ms-python.python
+                github.copilot
+                jnoortheen.nix-ide
+                docker.docker
+                ms-azuretools.vscode-containers
+                ms-vscode-remote.remote-containers
+                mhutchie.git-graph
+              ];
             };
           };
 
-          home.stateVersion = "25.05"; # or your system version
+          home.stateVersion = "26.05"; # or your system version
         }
         cfg.homeConfig
       ];
