@@ -13,6 +13,11 @@
       url = "git+https://codeberg.org/TomSievers/open-bamboo-networking-nixos.git?ref=master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    probe-rs-rules = {
+      url = "github:jneem/probe-rs-rules";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -31,12 +36,13 @@
           inherit system;
 
           specialArgs = {
-            inherit inputs hostName;
+            inherit inputs system hostName;
           };
 
           modules = [
             modulePath
             home-manager.nixosModules.home-manager
+            inputs.probe-rs-rules.nixosModules.${system}.default
           ];
         };
     in

@@ -3,6 +3,7 @@
   lib,
   pkgs,
   inputs,
+  system,
   ...
 }:
 
@@ -60,8 +61,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    home-manager.useGlobalPkgs = true;
-    home-manager.useUserPackages = true;
 
     home-manager.extraSpecialArgs = {
       inherit inputs;
@@ -88,7 +87,7 @@ in
       { pkgs, inputs, ... }:
       {
         imports = [
-          inputs.open-bamboo-networking-nixos.homeManagerModules.default
+          inputs.open-bamboo-networking.homeManagerModules.default
         ];
         config = mkMerge [
           {
@@ -225,7 +224,7 @@ in
               enable = true;
               target = "orca-slicer";
               pluginVersion = "02.03.00.99";
-              package = inputs.open-bamboo-networking-nixos.packages.${pkgs.system}.default;
+              package = inputs.open-bamboo-networking.packages.${system}.default;
             };
 
             home.stateVersion = "26.05"; # or your system version

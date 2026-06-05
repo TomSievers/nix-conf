@@ -1,5 +1,23 @@
 {
   "nodes": {
+    "flake-utils": {
+      "inputs": {
+        "systems": "systems"
+      },
+      "locked": {
+        "lastModified": 1689068808,
+        "narHash": "sha256-6ixXo3wt24N/melDWjq70UuHQLxGV8jZvooRanIHXw0=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "919d646de7be200f3bf08cb76ae1f09402b6f9b4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -66,11 +84,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1780692599,
-        "narHash": "sha256-gnvHMq2Ias2Le/MV+q5ec5XjXcJlnSySY3kz1Jk6VUw=",
+        "lastModified": 1780693907,
+        "narHash": "sha256-OLVr/RPmk/10inAGNPe0Ik7lO6KCmGA5FVyRiOlnRaU=",
         "ref": "master",
-        "rev": "97733d682bc8d3db2d91c21c50b6d0d3ba6d88e4",
-        "revCount": 4,
+        "rev": "bab71c58e01ad5e586e59e00020c5cd293dcdeef",
+        "revCount": 5,
         "type": "git",
         "url": "https://codeberg.org/TomSievers/open-bamboo-networking-nixos.git"
       },
@@ -80,11 +98,48 @@
         "url": "https://codeberg.org/TomSievers/open-bamboo-networking-nixos.git"
       }
     },
+    "probe-rs-rules": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1774797100,
+        "narHash": "sha256-Yg2mBbqI3yaXvO6dDUMs0QKGH2DLpag6FulMKsmuQ/A=",
+        "owner": "jneem",
+        "repo": "probe-rs-rules",
+        "rev": "5c601076adc309841ac7f6a932b59f296602410e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jneem",
+        "repo": "probe-rs-rules",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
-        "open-bamboo-networking": "open-bamboo-networking"
+        "open-bamboo-networking": "open-bamboo-networking",
+        "probe-rs-rules": "probe-rs-rules"
+      }
+    },
+    "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
       }
     }
   },
