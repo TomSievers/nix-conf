@@ -22,18 +22,29 @@
       home-manager,
       ...
     }@inputs:
-    {
-      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+    let
+      system = "x86_64-linux";
 
-        specialArgs = {
-          inherit inputs;
+      mkHost =
+        hostName: modulePath:
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+
+          specialArgs = {
+            inherit inputs hostName;
+          };
+
+          modules = [
+            modulePath
+            home-manager.nixosModules.home-manager
+          ];
         };
-
-        modules = [
-          ./configuration.nix
-          home-manager.nixosModules.home-manager
-        ];
+    in
+    {
+      nixosConfigurations = {
+        desktop = mkHost "desktop" ./hosts/desktop/configuration.nix;
+        laptop = mkHost "laptop" ./hosts/laptop/configuration.nix;
+        work = mkHost "work" ./hosts/work/configuration.nix;
       };
     };
 }
