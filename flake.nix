@@ -10,7 +10,7 @@
     };
 
     open-bamboo-networking = {
-      url = "git+https://codeberg.org/TomSievers/open-bamboo-networking-nixos.git";
+      url = "git+https://codeberg.org/TomSievers/open-bamboo-networking-nixos.git?ref=master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
