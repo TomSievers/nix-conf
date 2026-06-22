@@ -37,6 +37,7 @@
         pip
         virtualenv
         pyserial
+        pygobject3
       ]
     ))
     stlink

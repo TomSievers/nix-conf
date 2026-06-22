@@ -25,8 +25,6 @@
     ../.././generic.nix
   ];
 
-  networking.hostName = "nixos"; # Define your hostname.
-
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
 
@@ -38,6 +36,22 @@
     username = "tom";
     description = "Tom S";
     zshTheme = "agnoster";
+  };
+
+  fileSystems."/mnt/share" = {
+    device = "192.168.2.9:/mnt/share";
+    fsType = "nfs";
+    options = [
+      "defaults"
+      "x-systemd.mount-timeout=10"
+      "x-systemd.idle-timeout=2min"
+      "x-systemd.automount"
+      "nofail"
+      "noauto"
+      "soft"
+      "retrans=10"
+      "retry=0"
+    ];
   };
 
   # Allow unfree packages

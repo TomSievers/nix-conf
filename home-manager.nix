@@ -4,6 +4,7 @@
   pkgs,
   inputs,
   system,
+  hostName,
   ...
 }:
 
@@ -139,6 +140,7 @@ in
               kicad
               vlc
               gimp
+              calibre
 
               # Nerd font for zsh
               nerd-fonts.adwaita-mono
@@ -153,9 +155,15 @@ in
 
               shellAliases = {
                 ll = "ls -l";
-                update = "sudo nixos-rebuild switch";
-                system-upgrade = "sudo nix-channel --update && sudo nixos-rebuild switch --upgrade";
-                system-clean = "sudo nix-env --delete-generations 14d && sudo nix-store --gc && sudo nix-collect-garbage -d";
+
+                # Rebuild the current host from your flake repo.
+                update = "sudo nixos-rebuild switch --flake .#${hostName}";
+
+                # Update flake inputs, then rebuild.
+                system-upgrade = "cd /etc/nixos/nix-conf && sudo nix flake update && sudo nixos-rebuild switch --flake .#${hostName}";
+
+                # Clean old system/user generations and collect garbage.
+                system-clean = "nix profile wipe-history --older-than 14d && sudo nix-collect-garbage --delete-older-than 14d && nix-collect-garbage --delete-older-than 14d";
               };
 
               history = {

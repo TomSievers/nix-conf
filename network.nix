@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  hostName,
+  ...
+}:
 
 {
   # Configure networkmanager.
@@ -10,7 +15,7 @@
   hardware.enableRedistributableFirmware = true;
 
   # Default hostname
-  networking.hostName = "nixos";
+  networking.hostName = hostName;
 
   networking.extraHosts = ''
     192.168.2.9 cam1.home.arpa
