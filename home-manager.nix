@@ -234,7 +234,7 @@ in
             programs.open-bamboo-networking = {
               enable = true;
               target = "orca-slicer";
-              pluginVersion = "02.03.00.99";
+              pluginVersion = "02.04.00.99";
               package = inputs.open-bamboo-networking.packages.${system}.open-bamboo-networking-orca;
             };
 
