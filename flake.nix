@@ -32,6 +32,17 @@
 
       mkHost =
         hostName: modulePath:
+        let
+          overlays = [
+            (final: prev: {
+              minicom = prev.minicom.overrideAttrs (old: {
+                patches = (old.patches or [ ]) ++ [
+                  ./patches/minicom-glibc-baudrate-fix.patch
+                ];
+              });
+            })
+          ];
+        in
         nixpkgs.lib.nixosSystem {
           inherit system;
 
@@ -40,11 +51,13 @@
           };
 
           modules = [
+            { nixpkgs.overlays = overlays; }
             modulePath
             home-manager.nixosModules.home-manager
             inputs.probe-rs-rules.nixosModules.${system}.default
           ];
         };
+
     in
     {
       nixosConfigurations = {

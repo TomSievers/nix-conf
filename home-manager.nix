@@ -215,6 +215,7 @@ in
                   "docker.extension.enableComposeLanguageServer" = false;
                   "zig.zls.enabled" = "on";
                   "explorer.confirmDragAndDrop" = false;
+                  "claudeCode.claudeProcessWrapper" = "/run/current-system/sw/bin/claude";
                 };
                 extensions = with pkgs.vscode-extensions; [
                   ms-python.python
@@ -224,6 +225,8 @@ in
                   ms-azuretools.vscode-containers
                   ms-vscode-remote.remote-containers
                   mhutchie.git-graph
+                  anthropic.claude-code
+                  ms-toolsai.jupyter
                 ];
               };
             };

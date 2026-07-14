@@ -9,7 +9,10 @@
   nixpkgs.config.allowUnfree = true;
 
   # Enable libvirtd for virtualisation and virt-manager GUI
-  virtualisation.libvirtd.enable = true;
+  virtualisation.libvirtd = {
+    qemu.vhostUserPackages = with pkgs; [ virtiofsd ];
+    enable = true;
+  };
   programs.virt-manager.enable = true;
 
   programs.wireshark.enable = true;
@@ -38,6 +41,11 @@
         virtualenv
         pyserial
         pygobject3
+        numpy
+        scipy
+        matplotlib
+        notebook
+        jupyter
       ]
     ))
     stlink
@@ -60,11 +68,16 @@
     wg-netmanager
     spotify
     wireshark
+    inspectrum
+    claude-code
 
     gcc
+    rtl-sdr
 
     pkgs.pkgsStatic.qemu-user
   ];
+
+  hardware.rtl-sdr.enable = true;
 
   # Enable steam
   programs.steam.enable = true;
