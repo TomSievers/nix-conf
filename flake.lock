@@ -84,11 +84,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1784046790,
-        "narHash": "sha256-oWSaMtf6IGLaACw5ZS0YO/jgvTJW/NWY7olAOPTCs60=",
+        "lastModified": 1784049555,
+        "narHash": "sha256-hT1AXEX2iQd1pWrl0sxkNAGS/9yd/PpBBnEcPTvrjY8=",
         "ref": "develop",
-        "rev": "29a1082587d351377eb46c9fcdc436f885f18079",
-        "revCount": 9,
+        "rev": "f6203c2b3b35240fe1b4bdf652b21dd34a87886b",
+        "revCount": 16,
         "type": "git",
         "url": "https://codeberg.org/TomSievers/open-bamboo-networking-nixos.git"
       },
