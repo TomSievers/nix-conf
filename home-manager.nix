@@ -93,6 +93,26 @@ in
         config = mkMerge [
           {
             services.podman.enable = true;
+
+            services.podman.volumes = {
+              claude-config = {
+                autoStart = true;
+                device = "/home/${cfg.username}/.config/claude";
+                extraConfig.Volume = {
+                  Type = "none";
+                  Options = "bind";
+                };
+              };
+              claude-config-json = {
+                autoStart = true;
+                device = "/home/${cfg.username}/.claude.json";
+                extraConfig.Volume = {
+                  Type = "none";
+                  Options = "bind";
+                };
+              };
+            };
+
             programs.vim.enable = true;
 
             # We also need to set this in home manager, otherwise we won't be able to install vscode.

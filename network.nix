@@ -21,6 +21,7 @@
     192.168.2.9 cam1.home.arpa
     192.168.2.9 cam2.home.arpa
     192.168.2.9 cam3.home.arpa
+    192.168.2.9 esphome.home.arpa
   '';
 
   # Enable mDNS and Avahi for local network service discovery.
