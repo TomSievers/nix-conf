@@ -97,7 +97,7 @@ in
             services.podman.volumes = {
               claude-config = {
                 autoStart = true;
-                device = "/home/${cfg.username}/.config/claude";
+                device = "/home/${cfg.username}/.claude";
                 extraConfig.Volume = {
                   Type = "none";
                   Options = "bind";

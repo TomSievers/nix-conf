@@ -10,7 +10,10 @@
 
   # Enable libvirtd for virtualisation and virt-manager GUI
   virtualisation.libvirtd = {
-    qemu.vhostUserPackages = with pkgs; [ virtiofsd ];
+    qemu = {
+      vhostUserPackages = with pkgs; [ virtiofsd ];
+      swtpm.enable = true;
+    };
     enable = true;
   };
   programs.virt-manager.enable = true;
