@@ -43,7 +43,4 @@
       pkgs.cnijfilter2
     ];
   };
-
-  # Allow unfree packages, which may be needed for some hardware drivers and firmware.
-  nixpkgs.config.allowUnfree = true;
 }
