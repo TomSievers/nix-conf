@@ -3,7 +3,10 @@
 {
   # Install firefox
   programs.firefox.enable = true;
+  # Enable vim
   programs.vim.enable = true;
+  # Enable fwupd to update firmware on supported devices.
+  services.fwupd.enable = true;
 
   # Allow nonfree packages like vscode
   nixpkgs.config.allowUnfree = true;
