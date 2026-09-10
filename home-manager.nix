@@ -103,14 +103,6 @@ in
                   Options = "bind";
                 };
               };
-              claude-config-json = {
-                autoStart = true;
-                device = "/home/${cfg.username}/.claude.json";
-                extraConfig.Volume = {
-                  Type = "none";
-                  Options = "bind";
-                };
-              };
             };
 
             programs.vim.enable = true;
@@ -246,7 +238,6 @@ in
                   ms-vscode-remote.remote-containers
                   mhutchie.git-graph
                   anthropic.claude-code
-                  ms-toolsai.jupyter
                 ];
               };
             };

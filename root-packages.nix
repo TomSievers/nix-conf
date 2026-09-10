@@ -44,11 +44,6 @@
         virtualenv
         pyserial
         pygobject3
-        numpy
-        scipy
-        matplotlib
-        notebook
-        jupyter
       ]
     ))
     stlink
@@ -65,7 +60,6 @@
     pyocd
     teams-for-linux
     ghidra
-    arduino-ide
     libreoffice-fresh
     wireguard-tools
     wg-netmanager
@@ -74,13 +68,8 @@
     inspectrum
     claude-code
 
-    gcc
-    rtl-sdr
-
     pkgs.pkgsStatic.qemu-user
   ];
-
-  hardware.rtl-sdr.enable = true;
 
   # Enable steam
   programs.steam.enable = true;
