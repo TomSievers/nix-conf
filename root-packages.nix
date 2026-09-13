@@ -51,6 +51,8 @@
     ))
     stlink
     openocd
+    gnome-network-displays
+    runelite
 
     wineWow64Packages.stable
     winetricks

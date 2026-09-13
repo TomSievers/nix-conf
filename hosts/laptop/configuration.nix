@@ -23,6 +23,7 @@
     ../.././power.nix
     ../.././probe-rs-rules.nix
     ../.././generic.nix
+    ../.././nix-gc-comprehensive.nix
   ];
 
   # Set your time zone.
@@ -37,6 +38,8 @@
     description = "Tom S";
     zshTheme = "agnoster";
   };
+
+  services.nix-gc-comprehensive.enable = true;
 
   fileSystems."/mnt/share" = {
     device = "192.168.2.9:/mnt/share";
