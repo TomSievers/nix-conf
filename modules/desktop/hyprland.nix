@@ -6,7 +6,7 @@ let
   cfg = config.de.hyprland;
   hmAvailable = config ? home-manager && config.home-manager ? users;
   username = config.user.username or null;
-  confDir = ./conf;
+  confDir = ../../conf;
 in {
   options.de.hyprland = {
     enable = mkEnableOption "Enable hyprland DE";
@@ -56,7 +56,7 @@ in {
             ".config/hypr".source = "${confDir}/hypr";
             ".config/xdg-desktop-portal".source =
               "${confDir}/xdg-desktop-portal";
-            "Pictures/Wallpapers".source = "${confDir}/wallpapers";
+            "Pictures/Wallpapers".source = ../../wallpapers;
           };
         };
       };

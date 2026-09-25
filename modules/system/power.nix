@@ -9,13 +9,22 @@ with lib;
 
 let
   cfg = config.power;
-  isLaptop =
-    builtins.pathExists "/sys/class/power_supply/BAT0"
-    || builtins.pathExists "/sys/class/power_supply/BAT1";
+  isLaptop = cfg.isLaptop;
   logFile = "/var/log/power.log";
-  batt = if builtins.pathExists "/sys/class/power_supply/BAT0" then "BAT0" else "BAT1";
+  batt = cfg.battery;
 in
 {
+  # Set per host: detecting /sys/class/power_supply at evaluation time does not
+  # work with flakes, because pure evaluation cannot see /sys.
+  options.power = {
+    isLaptop = mkEnableOption "laptop power management (tuned balanced profile, battery logging)";
+    battery = mkOption {
+      type = types.str;
+      default = "BAT0";
+      description = "Battery name under /sys/class/power_supply used for sleep logging.";
+    };
+  };
+
   config = lib.mkMerge [
     # Laptop config
     (lib.mkIf isLaptop {

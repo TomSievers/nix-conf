@@ -1,45 +1,12 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{
-  config,
-  pkgs,
-  inputs,
-  ...
-}:
+{ ... }:
 
 {
   imports = [
-    # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../.././boot.nix
-    ../.././audio.nix
-    ../.././home-manager.nix
-    ../.././gnome-de.nix
-    ../.././locale.nix
-    ../.././network.nix
-    ../.././root-packages.nix
-    ../.././power.nix
-    ../.././probe-rs-rules.nix
-    ../.././generic.nix
-    ../.././nix-gc-comprehensive.nix
+    ../common.nix
   ];
 
-  # Set your time zone.
-  time.timeZone = "Europe/Amsterdam";
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  user = {
-    enable = true;
-    username = "tom";
-    description = "Tom S";
-    zshTheme = "agnoster";
-  };
-
-  services.nix-gc-comprehensive.enable = true;
+  power.isLaptop = true;
 
   fileSystems."/mnt/share" = {
     device = "192.168.2.9:/mnt/share";

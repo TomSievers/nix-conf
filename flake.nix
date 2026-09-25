@@ -70,7 +70,6 @@
       nixosConfigurations = {
         desktop = mkHost "desktop" ./hosts/desktop/configuration.nix;
         laptop = mkHost "laptop" ./hosts/laptop/configuration.nix;
-        work = mkHost "work" ./hosts/work/configuration.nix;
       };
     };
 }

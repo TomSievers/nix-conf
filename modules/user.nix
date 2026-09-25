@@ -12,6 +12,8 @@ with lib;
 
 let
   cfg = config.user;
+  flakeDir = escapeShellArg config.nixConf.flakeDir;
+  rebuild = "sudo nixos-rebuild switch --flake ${escapeShellArg "${config.nixConf.flakeDir}#${hostName}"}";
 in
 {
   options.user = {
@@ -63,6 +65,9 @@ in
 
   config = mkIf cfg.enable {
 
+    # Share the system nixpkgs (overlays such as pkgs.unstable, allowUnfree) with home-manager.
+    home-manager.useGlobalPkgs = true;
+
     home-manager.extraSpecialArgs = {
       inherit inputs;
     };
@@ -77,11 +82,6 @@ in
 
     # We also need to enable zsh here because it is needed for the users config above.
     programs.zsh.enable = true;
-
-    # Make docker socket (via podman) available for vscode.
-    virtualisation.podman.dockerSocket.enable = true;
-    virtualisation.podman.enable = true;
-    virtualisation.podman.dockerCompat = true;
 
     # Hook in the Home Manager config for this user
     home-manager.users.${cfg.username} =
@@ -105,16 +105,11 @@ in
               };
             };
 
-            programs.vim.enable = true;
-
-            # We also need to set this in home manager, otherwise we won't be able to install vscode.
-            nixpkgs.config.allowUnfree = true;
-
             # Hint for using wayland instead of X
             home.sessionVariables.NIXOS_OZONE_WL = "1";
 
             # Copy wallpaper to user location
-            home.file."/home/${cfg.username}/wallpapers/bg.jpg".source = ./wallpapers/wallpaper.jpg;
+            home.file."/home/${cfg.username}/wallpapers/bg.jpg".source = ../wallpapers/wallpaper.jpg;
 
             # Set the wallpaper for gnome
             dconf.settings = {
@@ -144,19 +139,26 @@ in
               podman-compose
 
               # GUI applications
-              rpi-imager
-              sourcegit
-              gparted
               orca-slicer
               freecad-wayland
               kicad
-              vlc
               gimp
               calibre
+              teams-for-linux
+              libreoffice-fresh
+
+              # Windows compatibility
+              wineWow64Packages.stable
+              winetricks
+
+              # CLI tools
+              jq
+              minicom
+              nixfmt
+              unstable.claude-code
 
               # Nerd font for zsh
               nerd-fonts.adwaita-mono
-
             ];
 
             # Some sane default zsh configuration with some usefull aliases
@@ -168,17 +170,17 @@ in
               shellAliases = {
                 ll = "ls -l";
 
-                # Rebuild the current host from your flake repo.
-                update = "sudo nixos-rebuild switch --flake .#${hostName}";
+                # Rebuild the current host from the flake checkout (works from any directory).
+                update = rebuild;
 
                 # Update flake inputs, then rebuild.
-                system-upgrade = "cd /etc/nixos/nix-conf && sudo nix flake update && sudo nixos-rebuild switch --flake .#${hostName}";
+                system-upgrade = "nix flake update --flake ${flakeDir} && ${rebuild}";
 
-                # Clean old system/user generations and collect garbage.
-                system-clean = "nix profile wipe-history --older-than 14d && sudo nix-collect-garbage --delete-older-than 14d && nix-collect-garbage --delete-older-than 14d";
+                # Trim old generations (system, users, home-manager) and collect garbage, see modules/system/nix-gc-comprehensive.nix.
+                system-clean = "sudo nix-comprehensive-gc";
 
                 # Update only the unstable nixpkgs input (used for claude-code), then rebuild.
-                nix-bump-unstable = "cd /etc/nixos/nix-conf && sudo nix flake update nixpkgs-unstable && sudo nixos-rebuild switch --flake .#${hostName}";
+                nix-bump-unstable = "nix flake update nixpkgs-unstable --flake ${flakeDir} && ${rebuild}";
               };
 
               history = {
@@ -230,7 +232,7 @@ in
                   "docker.extension.enableComposeLanguageServer" = false;
                   "zig.zls.enabled" = "on";
                   "explorer.confirmDragAndDrop" = false;
-                  "claudeCode.claudeProcessWrapper" = "/run/current-system/sw/bin/claude";
+                  "claudeCode.claudeProcessWrapper" = "${pkgs.unstable.claude-code}/bin/claude";
                 };
                 extensions = with pkgs.vscode-extensions; [
                   ms-python.python
