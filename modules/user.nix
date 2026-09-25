@@ -176,7 +176,8 @@ in
                 # Update flake inputs, then rebuild.
                 system-upgrade = "nix flake update --flake ${flakeDir} && ${rebuild}";
 
-                # Trim old generations (system, users, home-manager) and collect garbage, see modules/system/nix-gc-comprehensive.nix.
+                # Keep the last 5 generations of every profile and collect garbage; `system-clean 3` keeps 3.
+                # See modules/system/nix-gc-comprehensive.nix.
                 system-clean = "sudo nix-comprehensive-gc";
 
                 # Update only the unstable nixpkgs input (used for claude-code), then rebuild.

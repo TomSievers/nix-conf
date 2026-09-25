@@ -12,62 +12,70 @@ let
       set -euo pipefail
       log() { echo "[nix-gc] $*"; }
 
-      # 1. Trim NixOS system generations (this is what your bootloader list draws from)
-      ${optionalString cfg.systemGenerations.enable ''
-        log "Trimming system profile to last ${toString cfg.systemGenerations.keep} generations"
-        nix-env -p /nix/var/nix/profiles/system --delete-generations +${toString cfg.systemGenerations.keep}
-      ''}
+      usage() {
+        echo "usage: nix-comprehensive-gc [GENERATIONS]"
+        echo "Keep the last GENERATIONS generations (default ${toString cfg.keep}) of every"
+        echo "Nix profile (system, users, home-manager), then garbage collect the store."
+      }
 
-      # 2. Trim per-user nix-env / nix profile generations
-      ${optionalString cfg.userGenerations.enable ''
-        log "Trimming per-user profiles (keeping last ${toString cfg.userGenerations.keep})"
-        for profile in /nix/var/nix/profiles/per-user/*/profile; do
-          [ -e "$profile" ] || continue
-          user="$(basename "$(dirname "$profile")")"
-          log "  user: $user"
-          nix-env -p "$profile" --delete-generations +${toString cfg.userGenerations.keep} || true
+      keep="''${1:-${toString cfg.keep}}"
+      case "$keep" in
+        -h|--help) usage; exit 0 ;;
+      esac
+      if ! [[ "$keep" =~ ^[1-9][0-9]*$ ]]; then
+        usage >&2
+        exit 1
+      fi
+
+      if [ "$(id -u)" -ne 0 ]; then
+        echo "nix-comprehensive-gc must run as root (it trims every user's profiles)." >&2
+        exit 1
+      fi
+
+      # 1. Trim generations of every profile to the last $keep. A profile is a
+      #    symlink NAME next to its generation links NAME-<n>-link. This covers
+      #    the system profile, root's profiles and each user's profiles (nix-env,
+      #    `nix profile`, home-manager), in both the old and new locations.
+      log "Keeping the last $keep generations of every profile"
+      shopt -s nullglob
+      for dir in \
+        /nix/var/nix/profiles \
+        /nix/var/nix/profiles/per-user/* \
+        /root/.local/state/nix/profiles \
+        /home/*/.local/state/nix/profiles; do
+        [ -d "$dir" ] || continue
+        for profile in "$dir"/*; do
+          [ -L "$profile" ] || continue
+          name="$(basename "$profile")"
+          # Skip generation links themselves and links without generations (e.g. `default`).
+          [[ "$name" =~ -[0-9]+-link$ ]] && continue
+          generations=("$profile"-*-link)
+          [ "''${#generations[@]}" -gt 0 ] || continue
+          log "  $profile"
+          nix-env -p "$profile" --delete-generations "+$keep" || true
         done
-      ''}
+      done
 
-      # 3. home-manager generations
-      ${optionalString cfg.homeManager.enable ''
-        if command -v home-manager >/dev/null 2>&1; then
-          log "Expiring home-manager generations older than ${cfg.homeManager.olderThan}"
-          home-manager expire-generations "${cfg.homeManager.olderThan}" || true
-        fi
-      ''}
+      # 2. Drop the removed system generations from the boot menu.
+      log "Updating boot entries"
+      /nix/var/nix/profiles/system/bin/switch-to-configuration boot
 
-      # 4. Flake-style `nix profile` history
-      ${optionalString cfg.profileWipeHistory.enable ''
-        log "Wiping nix profile history older than ${cfg.profileWipeHistory.olderThan}"
-        nix profile wipe-history --older-than ${cfg.profileWipeHistory.olderThan} || true
-      ''}
-
-      # 5. Report stray GC roots (result symlinks, direnv, docker, etc.) without deleting them blindly
+      # 3. Report stray GC roots (result symlinks, direnv, docker, etc.) without deleting them blindly
       ${optionalString cfg.strayRoots.report ''
         log "Stray GC roots outside of managed profiles (review manually):"
         nix-store --gc --print-roots \
           | grep -v '^/proc' \
           | grep -v '/nix/var/nix/profiles' \
+          | grep -v '/\.local/state/nix/profiles' \
           | grep -v '{censored}' || true
       ''}
 
-      # 6. System-wide GC
-      log "Running system garbage collection (older than ${cfg.gc.systemOlderThan})"
-      nix-collect-garbage --delete-older-than ${cfg.gc.systemOlderThan}
+      # 4. Delete everything no longer reachable from a remaining generation or GC root.
+      log "Collecting garbage"
+      nix-store --gc
 
-      # 7. Per-user GC (in case a user's own store roots differ from root's view)
-      ${optionalString cfg.gc.perUser ''
-        for profile in /nix/var/nix/profiles/per-user/*; do
-          [ -d "$profile" ] || continue
-          user="$(basename "$profile")"
-          log "Running user garbage collection for: $user"
-          su - "$user" -c "nix-collect-garbage --delete-older-than ${cfg.gc.userOlderThan}" || true
-        done
-      ''}
-
-      # 8. Optimise store (hardlink duplicate files across derivations)
-      ${optionalString cfg.gc.optimiseStore ''
+      # 5. Optimise store (hardlink duplicate files across derivations)
+      ${optionalString cfg.optimiseStore ''
         log "Optimising store (deduplicating identical files)"
         nix-store --optimise
       ''}
@@ -82,59 +90,20 @@ in
   options.services.nix-gc-comprehensive = {
     enable = mkEnableOption "comprehensive Nix garbage collection";
 
-    systemGenerations = {
-      enable = boolOpt true "Trim /nix/var/nix/profiles/system (NixOS boot generations).";
-      keep = mkOption {
-        type = types.int;
-        default = 5;
-        description = "Number of most recent system generations to keep.";
-      };
-    };
-
-    userGenerations = {
-      enable = boolOpt true "Trim per-user nix-env/nix profile generations.";
-      keep = mkOption {
-        type = types.int;
-        default = 5;
-        description = "Number of most recent per-user generations to keep.";
-      };
-    };
-
-    homeManager = {
-      enable = boolOpt true "Expire home-manager generations, if home-manager is installed.";
-      olderThan = mkOption {
-        type = types.str;
-        default = "-14 days";
-        description = "Passed to `home-manager expire-generations`.";
-      };
-    };
-
-    profileWipeHistory = {
-      enable = boolOpt true "Wipe `nix profile` (flake-style) history.";
-      olderThan = mkOption {
-        type = types.str;
-        default = "14d";
-        description = "Passed to `nix profile wipe-history --older-than`.";
-      };
+    keep = mkOption {
+      type = types.ints.positive;
+      default = 5;
+      description = ''
+        Default number of most recent generations to keep for every profile
+        (system, users, home-manager). Can be overridden per run:
+        `nix-comprehensive-gc <n>`.
+      '';
     };
 
     strayRoots.report = boolOpt true
       "Print GC roots outside managed profiles (e.g. stray ./result symlinks) for manual review.";
 
-    gc = {
-      systemOlderThan = mkOption {
-        type = types.str;
-        default = "14d";
-        description = "Passed to the root `nix-collect-garbage --delete-older-than`.";
-      };
-      perUser = boolOpt true "Also run nix-collect-garbage as each user (catches user-owned roots).";
-      userOlderThan = mkOption {
-        type = types.str;
-        default = "14d";
-        description = "Passed to each user's `nix-collect-garbage --delete-older-than`.";
-      };
-      optimiseStore = boolOpt true "Run `nix-store --optimise` after collection.";
-    };
+    optimiseStore = boolOpt true "Run `nix-store --optimise` after collection.";
 
     automatic = mkOption {
       type = types.bool;
