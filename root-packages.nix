@@ -71,7 +71,7 @@
     spotify
     wireshark
     inspectrum
-    claude-code
+    pkgs.unstable.claude-code
 
     pkgs.pkgsStatic.qemu-user
   ];

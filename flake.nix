@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
@@ -40,6 +41,12 @@
                   ./patches/minicom-glibc-baudrate-fix.patch
                 ];
               });
+            })
+            (final: prev: {
+              unstable = import inputs.nixpkgs-unstable {
+                inherit system;
+                config.allowUnfree = true;
+              };
             })
           ];
         in

@@ -176,6 +176,9 @@ in
 
                 # Clean old system/user generations and collect garbage.
                 system-clean = "nix profile wipe-history --older-than 14d && sudo nix-collect-garbage --delete-older-than 14d && nix-collect-garbage --delete-older-than 14d";
+
+                # Update only the unstable nixpkgs input (used for claude-code), then rebuild.
+                nix-bump-unstable = "cd /etc/nixos/nix-conf && sudo nix flake update nixpkgs-unstable && sudo nixos-rebuild switch --flake .#${hostName}";
               };
 
               history = {
