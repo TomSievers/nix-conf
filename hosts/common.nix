@@ -15,6 +15,7 @@
     ../modules/system/virtualisation.nix
     ../modules/system/embedded.nix
     ../modules/system/nix-gc-comprehensive.nix
+    ../modules/system/update-check.nix
     ../modules/desktop/gnome.nix
     ../modules/desktop/hyprland.nix
     ../modules/user.nix
@@ -30,4 +31,5 @@
   };
 
   services.nix-gc-comprehensive.enable = true;
+  services.flake-update-check.enable = true;
 }
