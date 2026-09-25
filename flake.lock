@@ -25,11 +25,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789182507,
-        "narHash": "sha256-9nt4W0HNNP84B+b37yRs9Zxat1ZR5guJxEZDEjAgex4=",
+        "lastModified": 1789267039,
+        "narHash": "sha256-LWiBv9yAYFi2LPbUhDGHPGKYskJQjj2fw12OlyO1uQo=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "b1d1b60084970f9d1e2b72662639dab6d039be71",
+        "rev": "ec172013fa62135f58fb58dd17ae9651e8f39727",
         "type": "github"
       },
       "original": {
@@ -62,11 +62,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1789114715,
-        "narHash": "sha256-ugpsyk3NM2s87vXfUiIIiibbJ4Pp0JPS5p/3mfs+q+c=",
+        "lastModified": 1789998861,
+        "narHash": "sha256-62XMQD4WLdMAfdT0/8gJmPH2dKeTw908ryNloAplTr8=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "21a67dc470149f337cecafbe965d8d252a390518",
+        "rev": "1e8bc658fc985ef27ccd66d107d767b32bb7ef98",
         "type": "github"
       },
       "original": {
@@ -84,16 +84,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1784050044,
-        "narHash": "sha256-VKfMQuzdGWSGU2quor8wdN66wX4dwdk1nzraetvEu+4=",
-        "ref": "develop",
-        "rev": "e9b2eb8063b00d3e0ee9b669851ab809fcce6062",
-        "revCount": 17,
+        "lastModified": 1789407098,
+        "narHash": "sha256-8qQnU2vGKZ0DWFwzoSd5ZUfPwUG95hMxKgHhFxyP4Tg=",
+        "ref": "master",
+        "rev": "1de3baba798dfd9f58bd6bc5b635ae5c1fef31bd",
+        "revCount": 19,
         "type": "git",
         "url": "https://codeberg.org/TomSievers/open-bamboo-networking-nixos.git"
       },
       "original": {
-        "ref": "develop",
+        "ref": "master",
         "type": "git",
         "url": "https://codeberg.org/TomSievers/open-bamboo-networking-nixos.git"
       }
