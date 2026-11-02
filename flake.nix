@@ -31,6 +31,10 @@
     let
       system = "x86_64-linux";
 
+      # Take KiCad from nixos-unstable (newer 10.0.x point releases, needed by some Konnect tools).
+      # Set to false to fall back to the stable release if unstable breaks.
+      useUnstableKicad = true;
+
       mkHost =
         hostName: modulePath:
         let
@@ -41,6 +45,12 @@
                   ./patches/minicom-glibc-baudrate-fix.patch
                 ];
               });
+            })
+            (final: prev: {
+              # Konnect picks up this kicad too, so both always use the same version.
+              kicad = if useUnstableKicad then final.unstable.kicad else prev.kicad;
+              konnect = final.callPackage ./pkgs/konnect.nix { };
+              konnect-claude = final.callPackage ./pkgs/konnect-claude.nix { };
             })
             (final: prev: {
               unstable = import inputs.nixpkgs-unstable {

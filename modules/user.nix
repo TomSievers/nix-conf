@@ -85,7 +85,12 @@ in
 
     # Hook in the Home Manager config for this user
     home-manager.users.${cfg.username} =
-      { pkgs, inputs, ... }:
+      {
+        config,
+        pkgs,
+        inputs,
+        ...
+      }:
       {
         imports = [
           inputs.open-bamboo-networking.homeManagerModules.default
@@ -146,6 +151,7 @@ in
               calibre
               teams-for-linux
               libreoffice-fresh
+              openscad
 
               # Windows compatibility
               wineWow64Packages.stable
@@ -155,7 +161,6 @@ in
               jq
               minicom
               nixfmt
-              unstable.claude-code
 
               # Nerd font for zsh
               nerd-fonts.adwaita-mono
@@ -233,7 +238,7 @@ in
                   "docker.extension.enableComposeLanguageServer" = false;
                   "zig.zls.enabled" = "on";
                   "explorer.confirmDragAndDrop" = false;
-                  "claudeCode.claudeProcessWrapper" = "${pkgs.unstable.claude-code}/bin/claude";
+                  "claudeCode.claudeProcessWrapper" = getExe config.programs.claude-code.finalPackage;
                 };
                 extensions = with pkgs.vscode-extensions; [
                   ms-python.python
@@ -246,6 +251,40 @@ in
                   anthropic.claude-code
                 ];
               };
+            };
+
+            # Claude Code with Konnect (KiCad MCP server) baked into its wrapper. Konnect drives
+            # KiCad through its IPC API; enable it in KiCad under Preferences > Plugins.
+            # The server is passed with --mcp-config instead of mcpServers so its tools are named
+            # mcp__konnect__*, which Konnect's bundled agents and hooks match on. The `=` form
+            # keeps the variadic flag from swallowing subcommands like `claude mcp list`.
+            programs.claude-code = {
+              enable = true;
+              package = pkgs.symlinkJoin {
+                name = "claude-code-konnect";
+                paths = [ pkgs.unstable.claude-code ];
+                nativeBuildInputs = [ pkgs.makeWrapper ];
+                postBuild = ''
+                  wrapProgram $out/bin/claude \
+                    --add-flags "--mcp-config=${pkgs.konnect-claude}/mcp.json"
+                '';
+                inherit (pkgs.unstable.claude-code) meta;
+              };
+              plugins = [ "${pkgs.konnect-claude}/plugin" ];
+            };
+
+            # Konnect's skills and agents, linked file by file so other entries stay untouched.
+            home.file = {
+              ".claude/skills" = {
+                source = "${pkgs.konnect-claude}/skills";
+                recursive = true;
+              };
+              ".claude/agents" = {
+                source = "${pkgs.konnect-claude}/agents";
+                recursive = true;
+              };
+              # Marker `konnect init` writes; Konnect reports its guidance as not installed without it.
+              ".konnect/.installed-claude".text = pkgs.konnect.version;
             };
 
             programs.open-bamboo-networking = {

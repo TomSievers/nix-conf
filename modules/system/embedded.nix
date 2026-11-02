@@ -12,5 +12,6 @@
   services.udev.packages = with pkgs; [
     stlink
     openocd
+    teensy-udev-rules
   ];
 }

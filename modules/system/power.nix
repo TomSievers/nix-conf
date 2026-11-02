@@ -54,25 +54,6 @@ in
 
       # Enable dynamic tuning to allow automatic switching between power profiles based on power source
       services.tuned.settings.dynamic_tuning = true;
-
-      systemd.services.batterySleepLog = {
-        description = "Log battery state before and after sleep";
-
-        wantedBy = [ "sleep.target" ];
-        before = [ "sleep.target" ];
-
-        unitConfig.StopWhenUnneeded = true;
-
-        serviceConfig = {
-          Type = "oneshot";
-          RemainAfterExit = true;
-
-          ExecStart = "${pkgs.bash}/bin/bash -lc 'echo PRE $(${pkgs.coreutils}/bin/date -Is) $(cat /sys/class/power_supply/${batt}/status 2>/dev/null) $(cat /sys/class/power_supply/${batt}/energy_now 2>/dev/null) >> ${logFile}'";
-
-          ExecStop = "${pkgs.bash}/bin/bash -lc 'echo POST $(${pkgs.coreutils}/bin/date -Is) $(cat /sys/class/power_supply/${batt}/status 2>/dev/null) $(cat /sys/class/power_supply/${batt}/energy_now 2>/dev/null) >> ${logFile}'";
-        };
-      };
-
     })
 
     # Desktop config
